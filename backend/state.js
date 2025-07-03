@@ -1,47 +1,9 @@
 //here we initialize class to use the rooms in a singleton pattern
-
-//this logic only does one room per server code
-//i want to create multiple rooms in one server separated by code number
-// class Room {
-//   static #room = null;
-//   #code = "";
-//   #players = [];
-
-//   constructor(code) {
-//     if (Room.#room) {
-//       return Room.#room;
-//     }
-//     this.#code = code;
-//     this.#players = [];
-//     Room.#room = this;
-//   }
-
-//   addPlayer(user) {
-//     this.#players.push(user);
-//     console.log(
-//       `${user} has joined the room ${this.#code}, Players In: ${
-//         this.#players.length
-//       }`
-//     );
-//   }
-
-//   removePlayer(user) {
-//     this.#players = this.#players.filter((s) => s !== user);
-//     console.log(
-//       `${user} has left the room ${this.#code}, Remaining Occupants : ${
-//         this.#players.length
-//       }`
-//     );
-//   }
-//   getAllPlayers() {
-//     return this.#players;
-//   }
-// }
-
 class Room {
   constructor(code) {
     this.code = code;
     this.players = [];
+    this.scores = [];
   }
   add(user, socket) {
     const isPresent = this.players.find(
@@ -52,10 +14,27 @@ class Room {
       return false;
     } else {
       this.players.push({ user, socket });
+      this.scores.push({ user, score: 0 });
       console.log(
         `User ${user} has joined the room ${this.code}, total players:${this.players.length}`
       );
       return true;
+    }
+  }
+  updateScore(user, socket, score) {
+    const isPresent = this.players.find(
+      (u) => u.user === user || u.socket === socket
+    );
+    if (!isPresent) {
+      console.log(`User ${user} is not in room and hence cannot set score.`);
+      return false;
+    } else {
+      const existingScore = this.scores.find((s) => s.user === user);
+      if (existingScore) {
+        existingScore.score += score;
+        console.log(`Current Updated Score:${existingScore.score}`);
+        return true;
+      }
     }
   }
   broadcast(Obj) {
@@ -75,6 +54,7 @@ class Room {
   delete(user) {
     try {
       this.players = this.players.filter((s) => s.user !== user);
+      this.scores = this.scores.filter((s) => s.user !== user);
       console.log(
         `User ${user} has left the room ${this.code}, remaining players:${this.players.length}}`
       );

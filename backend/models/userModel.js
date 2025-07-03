@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["admin", "player"],
-    required: true,
+    // required: true,
     default: "player",
   },
 });
@@ -43,9 +43,8 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-//making a user schmema method to matchpassword
-userSchema.methods.matchPassword = async function (newPassword) {
-  return await bcrypt.compare(this.password, newPassword);
+userSchema.methods.matchPassword = async function (newPass) {
+  return await bcrypt.compare(this.password, newPass);
 };
 
 const userModel = new mongoose.model("user", userSchema);

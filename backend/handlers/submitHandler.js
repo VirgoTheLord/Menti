@@ -4,12 +4,12 @@ const RoomManager = require("../state");
 function handleSubmit(socket, payload) {
   const { qid, name, code, answer } = payload;
   const question = questions.find((s) => s.qid === qid);
-  const room = RoomManager.AllRooms(code);
+  const room = RoomManager.AllRooms().get(code);
 
   try {
     if (room.allusers().includes(name)) {
       if (!question) {
-        console.log("Quetion not found");
+        console.log("Question not found");
       }
       const isCorrect = answer === question.answer;
       if (isCorrect) {

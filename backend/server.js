@@ -4,12 +4,13 @@ const RoomManager = require("./state");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const connectDB = require("./config/db");
-const userRouter = require("./routes/entryRoutes");
+// const userRouter = require("./routes/entryRoutes");
 const app = express();
 const handleValidate = require("./handlers/validationHandler");
 const handleFetch = require("./handlers/fetchHandler");
 const handleLeave = require("./handlers/leaveHandler");
 const handleSubmit = require("./handlers/submitHandler");
+const handleScores = require("./handlers/scoreHandler");
 // const { Client } = require("pg");
 app.use(cors());
 app.use(express.json());
@@ -18,9 +19,9 @@ const PORT = 7000;
 const server = http.createServer(app);
 const ws = new WebSocketServer({ server });
 
-connectDB();
+// connectDB();
 
-app.use("/api/user", userRouter);
+// app.use("/api/user", userRouter);
 
 app.get("/api/generate-code", (req, res) => {
   try {
@@ -68,6 +69,8 @@ ws.on("connection", (socket) => {
       handleLeave(socket, payload);
     } else if (type === "submit-answer") {
       handleSubmit(socket, payload);
+    } else if (type === "set-score") {
+      handleScores(socket, payload);
     }
   });
 });
