@@ -18,14 +18,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    unique: true,
     minlength: 6,
   },
   role: {
     type: String,
-    enum: ["admin", "player"],
-    // required: true,
-    default: "player",
+    default: "admin",
   },
 });
 
@@ -35,8 +32,8 @@ userSchema.pre("save", async function (next) {
     return next();
   }
   try {
-    const salt = bcrypt.genSalt(10);
-    this.password = bcrypt.hash(this.password, salt);
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
     console.log(error);
@@ -44,7 +41,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.matchPassword = async function (newPass) {
-  return await bcrypt.compare(this.password, newPass);
+  return await bcrypt.compare(newPass, this.password);
 };
 
 const userModel = new mongoose.model("user", userSchema);

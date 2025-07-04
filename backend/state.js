@@ -4,6 +4,15 @@ class Room {
     this.code = code;
     this.players = [];
     this.scores = [];
+    this.admin = null;
+  }
+
+  setAdmin(socket) {
+    this.admin = socket;
+    console.log(`Admin has been set for room ${this.code}`);
+  }
+  isAdmin(socket) {
+    return this.admin === socket;
   }
   add(user, socket) {
     const isPresent = this.players.find(
@@ -71,7 +80,7 @@ class RoomManager {
 
   static getRoom(code) {
     if (!RoomManager.#rooms.has(code)) {
-      return RoomManager.#rooms.set(code, new Room(code));
+      RoomManager.#rooms.set(code, new Room(code));
     }
     return RoomManager.#rooms.get(code);
   }

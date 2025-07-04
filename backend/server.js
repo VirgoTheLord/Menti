@@ -4,14 +4,15 @@ const RoomManager = require("./state");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const connectDB = require("./config/db");
-// const userRouter = require("./routes/entryRoutes");
+const userRouter = require("./routes/entryRoutes");
 const app = express();
 const handleValidate = require("./handlers/validationHandler");
 const handleFetch = require("./handlers/fetchHandler");
 const handleLeave = require("./handlers/leaveHandler");
 const handleSubmit = require("./handlers/submitHandler");
 const handleScores = require("./handlers/scoreHandler");
-// const { Client } = require("pg");
+const handleAdmin = require("./handlers/adminHandler");
+const verifyToken = require("./middlewares/authMiddleware");
 app.use(cors());
 app.use(express.json());
 const PORT = 7000;
@@ -19,9 +20,9 @@ const PORT = 7000;
 const server = http.createServer(app);
 const ws = new WebSocketServer({ server });
 
-// connectDB();
+connectDB();
 
-// app.use("/api/user", userRouter);
+app.use("/api/user", userRouter);
 
 app.get("/api/generate-code", (req, res) => {
   try {
@@ -40,7 +41,7 @@ app.get("/api/generate-code", (req, res) => {
   }
 });
 
-app.post("/api/create-room", (req, res) => {
+app.post("/api/create-room", verifyToken, (req, res) => {
   try {
     const { code } = req.body;
     if (RoomManager.AllRooms().has(code)) {
@@ -71,6 +72,8 @@ ws.on("connection", (socket) => {
       handleSubmit(socket, payload);
     } else if (type === "set-score") {
       handleScores(socket, payload);
+    } else if (type === "admin") {
+      handleAdmin(socket, payload);
     }
   });
 });

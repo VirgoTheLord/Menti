@@ -6,6 +6,13 @@ function handleSubmit(socket, payload) {
   const question = questions.find((s) => s.qid === qid);
   const room = RoomManager.AllRooms().get(code);
 
+  if (!room) {
+    console.log("Room does not exist");
+    socket.send(
+      JSON.stringify({ type: "error", message: "Room does not exist" })
+    );
+  }
+
   try {
     if (room.allusers().includes(name)) {
       if (!question) {

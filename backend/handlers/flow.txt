@@ -1,0 +1,28 @@
+//create using http req
+//validate and join using websocket
+//fetch questions using websocket for each user
+//submit answer using websocket for each user
+//set the scores using websocket for each user
+
+
+To Do:
+//priority setup a redis pubsub
+//makes life so much easier.
+
+
+//admin routes to start quiz, next-question, end quiz
+//maybe do auth, not now maybe get the admin routes to work in general
+//leaderboard brodcast- should after every submit show the updated scores of every player in the room together
+//using websocket, so maybe make a handler.
+
+[
+    Ideally,
+    lets say 
+    the users/players just directly join by code.
+    but admin/creator joins by signup signin 
+    so schema should realistically not account for any other roles other than, admin so no need on enum
+    the signin and signup endpoint is only ever hit by the admin when he tries to login so dont realistically have to account for users trying to login
+    //just give different and independent routes yes.
+
+]
+

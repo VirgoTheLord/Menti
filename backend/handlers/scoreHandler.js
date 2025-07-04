@@ -19,7 +19,7 @@ function handleScores(socket, payload) {
         } else {
           socket.send(
             JSON.stringify({
-              type: error,
+              type: "error",
               message: "Score could not be updated.",
             })
           );
