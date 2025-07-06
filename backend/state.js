@@ -5,6 +5,7 @@ class Room {
     this.players = [];
     this.scores = [];
     this.admin = null;
+    this.qid = 1;
   }
 
   setAdmin(socket) {

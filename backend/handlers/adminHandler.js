@@ -1,4 +1,5 @@
 const RoomManager = require("../state");
+const questions = require("../data/questions");
 
 function handleAdmin(socket, payload) {
   const { action, code } = payload;
@@ -17,22 +18,41 @@ function handleAdmin(socket, payload) {
     );
     return;
   }
-  if (room.allusers().length === 0) {
+  if (room.allusers().length === 1) {
     socket.send(
       JSON.stringify({
         type: "error",
         message: "no users in the room to start the quiz",
       })
     );
+    return;
   }
+
+  const sendQid = room.qid;
+  room.qid += 1;
   switch (action) {
     case "start-quiz":
-      room.broadcast({ type: "quiz-started" });
-      console.log(`Quiz started in room ${code}`);
+      const first = questions.find((s) => s.qid === sendQid);
+      if (!first) {
+        socket.send(
+          JSON.stringify({ type: error, message: "Question does not exist" })
+        );
+      }
+      room.broadcast({ type: "quiz-started", payload: first });
+      console.log(
+        `Quiz started in room ${code} and ${sendQid} question is sent`
+      );
       break;
     case "next-question":
-      room.broadcast({ type: "next-question" });
-      console.log(`Admin started next question in room ${code}`);
+      const question = questions.find((s) => s.qid === sendQid);
+      if (!question) {
+        socket.send(
+          JSON.stringify({ type: "error", message: "Question does not exist" })
+        );
+      }
+
+      room.broadcast({ type: "next-question", payload: question });
+      console.log(`Admin started next question ${sendQid} in room ${code}`);
       break;
     case "end-quiz":
       room.broadcast({ type: "quiz-ended" });

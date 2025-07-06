@@ -1,13 +1,20 @@
 import axios from "axios";
-import React, { use, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWebSocket } from "../context/WebsocketContext";
+import { useWebSocket } from "../context/WebSocketContext";
 
 const useCreateRoom = () => {
   const [name, setName] = useState("");
   const { setRoom, sendMessage } = useWebSocket();
   const navigate = useNavigate();
   const handleSubmit = async (code) => {
+    const playerName = name.trim() + "_admin";
+    if (!playerName) {
+      console.log("Enter name to create quiz");
+      alert("Enter Both Fields.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     if (!token) {
       console.log("Not authorized please signup /login");
@@ -27,13 +34,13 @@ const useCreateRoom = () => {
       );
       if (response.status === 200) {
         console.log(`Room ${code} has been created`);
-        navigate(`/quiz/${code}`);
+        navigate(`/admin/${code}`);
 
         setRoom(code);
         sendMessage({
           type: "validation",
           payload: {
-            name,
+            name: playerName,
             code,
             isAdmin: true,
           },

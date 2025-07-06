@@ -30,6 +30,11 @@ function handleValidate(socket, payload) {
         type: "Admin Joined",
         message: `Admin has joined room ${code}`,
       });
+      socket.send(JSON.stringify({ type: "validation-success" }));
+      room.broadcast({
+        type: "players-update",
+        players: room.allusers(),
+      });
     } else {
       const success = room.add(name, socket);
       if (!success) {
@@ -40,8 +45,10 @@ function handleValidate(socket, payload) {
           })
         );
       } else {
+        socket.send(JSON.stringify({ type: "validation-success" }));
         room.broadcast({ type: "user-joined", name: name });
         console.log(`User ${name} has joined the room ${code}`);
+        room.broadcast({ type: "players-update", players: room.allusers() });
       }
     }
   }

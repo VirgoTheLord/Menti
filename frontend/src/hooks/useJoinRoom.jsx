@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useWebSocket } from "../context/WebsocketContext";
+import { useEffect, useState } from "react";
+import { useWebSocket } from "../context/WebSocketContext";
 import { useNavigate } from "react-router-dom";
 
 const useJoinRoom = () => {
-  const { sendMessage } = useWebSocket();
-  const [name, setName] = useState("");
+  const { sendMessage, validate, name, room, setName, setRoom } =
+    useWebSocket();
+  // const [name, setName] = useState("");
   const [code, setCode] = useState("");
+
   const navigate = useNavigate();
   const handleSubmit = () => {
     const room = code.trim();
@@ -23,11 +25,17 @@ const useJoinRoom = () => {
           isAdmin: false,
         },
       });
-      navigate(`/quiz/${room}`);
+      setRoom(room);
     } catch (error) {
       console.log("Error joining quiz:", error);
     }
   };
+
+  useEffect(() => {
+    if (validate) {
+      navigate(`/quiz/${code}`);
+    }
+  }, [validate]);
   return {
     name,
     setName,
