@@ -10,12 +10,17 @@ function handleScores(socket, payload) {
         const score = calculate(timeLeft);
         const success = room.updateScore(name, socket, score);
         if (success) {
-          socket.send(
-            JSON.stringify({
-              type: "set-scores-success",
-              score: score,
-            })
-          );
+          room.broadcast({
+            type: "set-scores-success",
+            name: name,
+            score: score,
+          });
+          // socket.send(
+          //   JSON.stringify({
+          //     type: "set-scores-success",
+          //     score: score,
+          //   })
+          // );
         } else {
           socket.send(
             JSON.stringify({
@@ -25,6 +30,10 @@ function handleScores(socket, payload) {
           );
         }
       } else {
+        room.broadcast({
+          type: "set-scores-success",
+          message: "No change in score",
+        });
         socket.send(
           JSON.stringify({
             type: "set-scores-success",

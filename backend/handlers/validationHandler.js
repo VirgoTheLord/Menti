@@ -19,12 +19,13 @@ function handleValidate(socket, payload) {
     if (isAdmin) {
       room.setAdmin(socket);
       console.log(`Admin has joined the room ${code}`);
-      socket.send(
-        JSON.stringify({
-          type: "Admin Joined",
-          message: "Admin has joined the room",
-        })
-      );
+      // socket.send(
+      //   JSON.stringify({
+      //     type: "Admin Joined",
+      //     message: "Admin has joined the room",
+      //   })
+      // );
+      room.add(name, socket);
       room.broadcast({
         type: "Admin Joined",
         message: `Admin has joined room ${code}`,

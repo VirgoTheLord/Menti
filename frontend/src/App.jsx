@@ -6,6 +6,7 @@ import CreateQuiz from "./pages/CreateQuiz";
 import JoinQuiz from "./pages/JoinQuiz";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import UserQuiz from "./pages/UserQuiz";
 
 const App = () => {
   return (
@@ -13,11 +14,11 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/join-quiz" element={<JoinQuiz />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/quiz/:room" element={<UserQuiz />} />
           <Route path="/" element={<UserLayout />}>
             <Route index element={<Hero />} />
-
             <Route path="create" element={<CreateQuiz />} />
           </Route>
         </Routes>

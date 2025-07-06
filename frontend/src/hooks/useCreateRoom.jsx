@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWebSocket } from "../context/WebsocketContext";
 
 const useCreateRoom = () => {
   const [name, setName] = useState("");
+  const { setRoom, sendMessage } = useWebSocket();
   const navigate = useNavigate();
   const handleSubmit = async (code) => {
     const token = localStorage.getItem("token");
@@ -26,6 +28,16 @@ const useCreateRoom = () => {
       if (response.status === 200) {
         console.log(`Room ${code} has been created`);
         navigate(`/quiz/${code}`);
+
+        setRoom(code);
+        sendMessage({
+          type: "validation",
+          payload: {
+            name,
+            code,
+            isAdmin: true,
+          },
+        });
       } else {
         alert(`Room with code ${code} already exists`);
         return;

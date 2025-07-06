@@ -17,6 +17,14 @@ function handleAdmin(socket, payload) {
     );
     return;
   }
+  if (room.allusers().length === 0) {
+    socket.send(
+      JSON.stringify({
+        type: "error",
+        message: "no users in the room to start the quiz",
+      })
+    );
+  }
   switch (action) {
     case "start-quiz":
       room.broadcast({ type: "quiz-started" });
