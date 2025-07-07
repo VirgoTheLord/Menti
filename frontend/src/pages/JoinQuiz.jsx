@@ -1,8 +1,7 @@
-import React from "react";
 import useJoinRoom from "../hooks/useJoinRoom";
 
 const JoinQuiz = () => {
-  const { name, setName, code, setCode, handleSubmit } = useJoinRoom();
+  const { name, setName, room, setRoom, handleSubmit } = useJoinRoom();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">
@@ -21,8 +20,8 @@ const JoinQuiz = () => {
         <input
           type="text"
           placeholder="Enter quiz code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
+          value={room}
+          onChange={(e) => setRoom(e.target.value)}
           className="border border-gray-300 p-2 rounded w-80"
         />
         <button

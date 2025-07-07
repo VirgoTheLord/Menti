@@ -3,7 +3,6 @@ import { useWebSocket } from "../context/WebSocketContext";
 const useAdmin = () => {
   const { sendMessage, room, isConnected, quizStart, setQuizStart } =
     useWebSocket();
-  // const [quizStart, setQuizStart] = useState(false);
 
   if (!isConnected) {
     console.log("Websocket not connected error");

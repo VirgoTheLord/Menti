@@ -5,27 +5,26 @@ import { useNavigate } from "react-router-dom";
 const useJoinRoom = () => {
   const { sendMessage, validate, name, room, setName, setRoom } =
     useWebSocket();
-  // const [name, setName] = useState("");
-  const [code, setCode] = useState("");
 
   const navigate = useNavigate();
   const handleSubmit = () => {
-    const room = code.trim();
+    const enteredRoom = room.trim();
     const playerName = name.trim();
     try {
-      if (!room || !playerName) {
+      if (!enteredRoom || !playerName) {
         console.log("Please enter both name and quiz code.");
         return;
       }
+      setRoom(enteredRoom);
+
       sendMessage({
         type: "validation",
         payload: {
           name: playerName,
-          code: room,
+          code: enteredRoom,
           isAdmin: false,
         },
       });
-      setRoom(room);
     } catch (error) {
       console.log("Error joining quiz:", error);
     }
@@ -33,14 +32,14 @@ const useJoinRoom = () => {
 
   useEffect(() => {
     if (validate) {
-      navigate(`/quiz/${code}`);
+      navigate(`/quiz/${room}`);
     }
   }, [validate]);
   return {
     name,
     setName,
-    code,
-    setCode,
+    room,
+    setRoom,
     handleSubmit,
   };
 };

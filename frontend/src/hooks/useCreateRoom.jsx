@@ -19,6 +19,7 @@ const useCreateRoom = () => {
     if (!token) {
       console.log("Not authorized please signup /login");
       navigate("/login");
+      return;
     }
     try {
       const response = await axios.post(
@@ -34,8 +35,6 @@ const useCreateRoom = () => {
       );
       if (response.status === 200) {
         console.log(`Room ${code} has been created`);
-        navigate(`/admin/${code}`);
-
         setRoom(code);
         sendMessage({
           type: "validation",
@@ -45,6 +44,7 @@ const useCreateRoom = () => {
             isAdmin: true,
           },
         });
+        navigate(`/admin/${code}`);
       } else {
         alert(`Room with code ${code} already exists`);
         return;

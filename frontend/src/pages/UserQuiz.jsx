@@ -10,13 +10,9 @@ const UserQuiz = () => {
     quizStart,
     name,
     sendMessage,
-    setRoom,
     nextQuestion,
   } = useWebSocket();
-  const roomNumber = useLocation().pathname.split("/").pop();
-  useEffect(() => {
-    setRoom(roomNumber);
-  }, [roomNumber]);
+  // const roomNumber = useLocation().pathname.split("/").pop();
 
   const [selectedOption, setSelectedOption] = useState("");
   const handleSubmitAnswer = () => {
@@ -26,7 +22,7 @@ const UserQuiz = () => {
         payload: {
           qid: nextQuestion.qid,
           answer: selectedOption,
-          code: roomNumber,
+          code: room,
           name: name,
         },
       });
@@ -46,7 +42,7 @@ const UserQuiz = () => {
             <h1 className="text-3xl font-bold mb-4">User Quiz</h1>
             <p className="text-lg">Loading quiz...</p>
             <div className="mt-4">
-              <p className="text-lg">Room Code: {room ? room : roomNumber}</p>
+              <p className="text-lg">Room Code: {room}</p>
               <p>Players in room:{players.length}</p>
               {players.map((player, id) => {
                 return (
