@@ -1,5 +1,5 @@
 import { useRef, useContext, useState, createContext, useEffect } from "react";
-
+import { getSingletonSocket } from "./singletonSocket";
 export const WebSocketContext = createContext();
 
 export const WebSocketProvider = ({ children }) => {
@@ -11,14 +11,14 @@ export const WebSocketProvider = ({ children }) => {
   const [quizStart, setQuizStart] = useState(false);
   const [validate, setValidate] = useState(false);
   const [nextQuestion, setNextQuestion] = useState(null);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [showScore, setShowScore] = useState(false);
+  const [length, setLength] = useState(0);
+  const socket = getSingletonSocket(setIsConnected);
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:7000");
-
-    socketRef.current.onopen = () => {
-      console.log("WebSocket connection established");
-      setIsConnected(true);
-    };
+    socketRef.current = socket;
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -31,15 +31,33 @@ export const WebSocketProvider = ({ children }) => {
       }
       if (data.type === "quiz-started") {
         setQuizStart(true);
-        setNextQuestion(data.payload);
+        setNextQuestion(data.payload.question);
+        setLength(data.payload.length);
         console.log("Quiz started with question:", data.payload);
       }
       if (data.type === "quiz-ended") {
         setQuizStart(false);
+        setShowScore(true);
       }
       if (data.type === "next-question") {
+        setQuizStart(true);
         setNextQuestion(data.payload);
         console.log("Next question received:", data.payload);
+      }
+      if (data.type === "submit-answer-response") {
+        const { isCorrect, score } = data;
+        setCurrentScore((prevScore) => prevScore + score);
+        setIsCorrect(isCorrect);
+        console.log(
+          "Answer submitted. Is correct:",
+          isCorrect,
+          "Score:",
+          score
+        );
+      }
+      if (data.type === "leave") {
+        setPlayers(data.players);
+        console.log("A player has left the quiz");
       }
       //global error just made in case it erros out and uses my try catch errors, some may not be configured but catched the useful ones prolly i guess
       if (data.type === "error") {
@@ -47,11 +65,6 @@ export const WebSocketProvider = ({ children }) => {
         setValidate(false);
       }
       console.log("Received message:", data);
-    };
-
-    socketRef.current.onclose = () => {
-      console.log("WebSocket connection closed");
-      setIsConnected(false);
     };
 
     return () => {
@@ -81,6 +94,13 @@ export const WebSocketProvider = ({ children }) => {
     name,
     setName,
     setNextQuestion,
+    currentScore,
+    isCorrect,
+    setIsCorrect,
+    showScore,
+    setShowScore,
+    length,
+    setLength,
   };
 
   return (

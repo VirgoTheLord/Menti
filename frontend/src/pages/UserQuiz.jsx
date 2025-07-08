@@ -1,33 +1,25 @@
 import { useWebSocket } from "../context/WebSocketContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import useUser from "../hooks/useUser";
 
 const UserQuiz = () => {
   const {
+    handleSubmitAnswer,
+    handleLeaveRoom,
     isConnected,
-    players,
-    room,
     quizStart,
-    name,
-    sendMessage,
+    players,
     nextQuestion,
-  } = useWebSocket();
-  // const roomNumber = useLocation().pathname.split("/").pop();
-
-  const [selectedOption, setSelectedOption] = useState("");
-  const handleSubmitAnswer = () => {
-    if (selectedOption) {
-      sendMessage({
-        type: "submit-answer",
-        payload: {
-          qid: nextQuestion.qid,
-          answer: selectedOption,
-          code: room,
-          name: name,
-        },
-      });
-    }
-  };
+    submit,
+    isCorrect,
+    name,
+    currentScore,
+    showScore,
+    room,
+    selectedOption,
+    setSelectedOption,
+  } = useUser();
 
   if (!isConnected) {
     console.log("User not connected");
@@ -58,7 +50,9 @@ const UserQuiz = () => {
         <div className="flex flex-col items-center justify-center h-screen">
           {nextQuestion && (
             <div className="mb-4">
-              <h2 className="text-xl font-semibold">{nextQuestion.question}</h2>
+              <h2 className="text-xl font-semibold">
+                {nextQuestion.qid}. {nextQuestion.question}
+              </h2>
               <form className="flex flex-col gap-4">
                 {Object.entries(nextQuestion.options).map(([key, value]) => (
                   <label
@@ -79,24 +73,42 @@ const UserQuiz = () => {
                   </label>
                 ))}
               </form>
+
               <button
+                disabled={submit}
                 onClick={handleSubmitAnswer}
                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
                 Submit Answer
               </button>
+              {typeof isCorrect === "boolean" && (
+                <p className="text-black mt-2">
+                  {isCorrect ? "Correct Answer!" : "Wrong Answer!"}
+                </p>
+              )}
+              <h1 className="text-blue text-sm">
+                name: {name} <br />
+                currentScore = {currentScore}
+              </h1>
             </div>
           )}
         </div>
       )}
 
-      <div className="mt-8">
-        <p className="text-lg">Quiz Ended!</p>
-        <p className="text-md">Your score: 10/10</p>
-        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Exit
-        </button>
-      </div>
+      {showScore && (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <div className="mt-8">
+            <p className="text-lg">Quiz Ended!</p>
+            <p className="text-md">score: {currentScore}</p>
+            <button
+              onClick={handleLeaveRoom}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Exit
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

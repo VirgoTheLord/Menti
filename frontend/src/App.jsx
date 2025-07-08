@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UserLayout from "./components/layout/UserLayout";
 import Hero from "./pages/Hero";
 import CreateQuiz from "./pages/CreateQuiz";
@@ -12,19 +12,17 @@ import AdminQuiz from "./pages/AdminQuiz";
 const App = () => {
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/join-quiz" element={<JoinQuiz />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/quiz/:room" element={<UserQuiz />} />
-          <Route path="/" element={<UserLayout />}>
-            <Route index element={<Hero />} />
-            <Route path="create" element={<CreateQuiz />} />
-            <Route path="admin/:room" element={<AdminQuiz />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/join-quiz" element={<JoinQuiz />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/quiz/:room" element={<UserQuiz />} />
+        <Route path="/" element={<UserLayout />}>
+          <Route index element={<Hero />} />
+          <Route path="create" element={<CreateQuiz />} />
+          <Route path="admin/:room" element={<AdminQuiz />} />
+        </Route>
+      </Routes>
     </div>
   );
 };

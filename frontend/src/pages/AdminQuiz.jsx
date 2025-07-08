@@ -2,13 +2,15 @@ import { useWebSocket } from "../context/WebSocketContext";
 import useAdmin from "../hooks/useAdmin";
 
 const AdminQuiz = () => {
-  const { players } = useWebSocket();
+  const { players, length } = useWebSocket();
   const {
     handleStartQuiz,
     handleNextQuestion,
     handleEndQuiz,
+    handleCloseRoom,
     room,
     quizStart,
+    qid,
   } = useAdmin();
 
   return (
@@ -18,16 +20,26 @@ const AdminQuiz = () => {
       <p className="text-lg mb-4">Room Code: {room}</p>
       <p className="text-lg mb-4">Players: {players.length}</p>
       {!quizStart ? (
-        <button
-          onClick={handleStartQuiz}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          {" "}
-          Start Quiz
-        </button>
+        <>
+          <button
+            onClick={handleStartQuiz}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            {" "}
+            Start Quiz
+          </button>
+          <button
+            onClick={handleCloseRoom}
+            className="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            {" "}
+            Delete/Leave Room
+          </button>
+        </>
       ) : (
         <>
           <button
+            disabled={qid >= length}
             onClick={handleNextQuestion}
             className=" mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >

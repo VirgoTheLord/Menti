@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "../context/WebSocketContext";
 
 const useCreateRoom = () => {
-  const [name, setName] = useState("");
-  const { setRoom, sendMessage } = useWebSocket();
+  // const [name, setName] = useState("");
+  const { setRoom, sendMessage, name, setName } = useWebSocket();
   const navigate = useNavigate();
   const handleSubmit = async (code) => {
     const playerName = name.trim() + "_admin";
@@ -36,6 +36,7 @@ const useCreateRoom = () => {
       if (response.status === 200) {
         console.log(`Room ${code} has been created`);
         setRoom(code);
+        setName(playerName);
         sendMessage({
           type: "validation",
           payload: {
@@ -44,6 +45,7 @@ const useCreateRoom = () => {
             isAdmin: true,
           },
         });
+
         navigate(`/admin/${code}`);
       } else {
         alert(`Room with code ${code} already exists`);

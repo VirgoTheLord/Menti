@@ -3,7 +3,7 @@ import useGenerateCode from "../hooks/useGenerateCode";
 
 const CreateQuiz = () => {
   const { code, setCode, handleGenerateCode } = useGenerateCode();
-  const { name, setName, handleSubmit } = useCreateRoom();
+  const { handleSubmit, name, setName } = useCreateRoom();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">

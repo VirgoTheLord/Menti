@@ -1,8 +1,9 @@
 const questions = require("../data/questions");
 const RoomManager = require("../state");
+const calculate = require("../data/calculate");
 
 function handleSubmit(socket, payload) {
-  const { qid, name, code, answer } = payload;
+  const { qid, name, code, answer, timeLeft } = payload;
   const question = questions.find((s) => s.qid === qid);
   const room = RoomManager.AllRooms().get(code);
 
@@ -20,21 +21,29 @@ function handleSubmit(socket, payload) {
       }
       const isCorrect = answer === question.answer;
       if (isCorrect) {
-        socket.send(
-          JSON.stringify({
-            type: "submit-answer-response",
-            message: "Answer is correct",
-            isCorrect,
-            answer: "Correct",
-          })
-        );
+        const score = calculate(timeLeft);
+        const success = room.updateScore(name, socket, score);
+        if (success) {
+          socket.send(
+            JSON.stringify({
+              type: "submit-answer-response",
+              message: "Answer is correct",
+              name: name,
+              isCorrect,
+              answer: "Correct",
+              score: score,
+            })
+          );
+        }
       } else {
         socket.send(
           JSON.stringify({
             type: "submit-answer-response",
             message: "Answer is Wrong",
+            name: name,
             isCorrect,
             answer: "Wrong",
+            score: 0,
           })
         );
       }

@@ -66,7 +66,7 @@ class Room {
       this.players = this.players.filter((s) => s.user !== user);
       this.scores = this.scores.filter((s) => s.user !== user);
       console.log(
-        `User ${user} has left the room ${this.code}, remaining players:${this.players.length}}`
+        `User ${user} has left the room ${this.code}, remaining players:${this.players.length}`
       );
       return true;
     } catch (error) {

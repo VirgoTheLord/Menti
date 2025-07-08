@@ -30,15 +30,23 @@ function handleAdmin(socket, payload) {
 
   const sendQid = room.qid;
   room.qid += 1;
+
+  const totalLength = questions.length;
   switch (action) {
     case "start-quiz":
       const first = questions.find((s) => s.qid === sendQid);
       if (!first) {
         socket.send(
-          JSON.stringify({ type: error, message: "Question does not exist" })
+          JSON.stringify({ type: "error", message: "Question does not exist" })
         );
       }
-      room.broadcast({ type: "quiz-started", payload: first });
+      room.broadcast({
+        type: "quiz-started",
+        payload: {
+          question: first,
+          length: totalLength,
+        },
+      });
       console.log(
         `Quiz started in room ${code} and ${sendQid} question is sent`
       );
