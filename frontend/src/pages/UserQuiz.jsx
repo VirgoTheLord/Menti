@@ -13,7 +13,7 @@ const UserQuiz = () => {
     nextQuestion,
     submit,
     isCorrect,
-    name,
+    contextName,
     currentScore,
     showScore,
     room,
@@ -87,7 +87,7 @@ const UserQuiz = () => {
                 </p>
               )}
               <h1 className="text-blue text-sm">
-                name: {name} <br />
+                name: {contextName} <br />
                 currentScore = {currentScore}
               </h1>
             </div>

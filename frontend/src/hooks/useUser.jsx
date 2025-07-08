@@ -8,8 +8,8 @@ const useUser = () => {
     players,
     room,
     quizStart,
-    name,
-    setName,
+    contextName,
+    setContextName,
     sendMessage,
     nextQuestion,
     isCorrect,
@@ -32,7 +32,7 @@ const useUser = () => {
           timeLeft: timeleft,
           answer: selectedOption,
           code: room,
-          name: name,
+          name: contextName,
         },
       });
       setSubmit(true);
@@ -44,13 +44,13 @@ const useUser = () => {
     sendMessage({
       type: "leave-room",
       payload: {
-        name: name,
+        name: contextName,
         code: room,
       },
     });
     navigate("/");
-    console.log(`User ${name} has left the room.`);
-    setName("");
+    console.log(`User ${contextName} has left the room.`);
+    setContextName("");
   };
   useEffect(() => {
     setSubmit(false);
@@ -67,7 +67,7 @@ const useUser = () => {
     nextQuestion,
     submit,
     isCorrect,
-    name,
+    contextName,
     currentScore,
     showScore,
     room,

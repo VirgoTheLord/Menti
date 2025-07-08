@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useSignUp from "../hooks/UseSignUp";
 
 const SignUp = () => {
@@ -10,6 +11,7 @@ const SignUp = () => {
     setPassword,
     handleSubmit,
   } = useSignUp();
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">
       <h1 className="text-5xl font-bold mb-4">Sign Up</h1>
@@ -45,7 +47,10 @@ const SignUp = () => {
       </form>
       <p className="mt-4">
         Already have an account?{" "}
-        <a href="/login" className="text-blue-500 hover:underline">
+        <a
+          onClick={() => navigate("/login")}
+          className="text-blue-500 hover:underline"
+        >
           Login
         </a>
       </p>

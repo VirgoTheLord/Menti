@@ -1,12 +1,12 @@
 import { useRef, useContext, useState, createContext, useEffect } from "react";
-import { getSingletonSocket } from "./singletonSocket";
+// import { getSingletonSocket } from "./singletonSocket";
 export const WebSocketContext = createContext();
 
 export const WebSocketProvider = ({ children }) => {
   const socketRef = useRef(null);
   const [players, setPlayers] = useState([]);
   const [room, setRoom] = useState("");
-  const [name, setName] = useState("");
+  const [contextName, setContextName] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [quizStart, setQuizStart] = useState(false);
   const [validate, setValidate] = useState(false);
@@ -15,10 +15,18 @@ export const WebSocketProvider = ({ children }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [length, setLength] = useState(0);
-  const socket = getSingletonSocket(setIsConnected);
+
+  // const socket = getSingletonSocket(setIsConnected);
 
   useEffect(() => {
-    socketRef.current = socket;
+    console.log("Websocket on app mount");
+
+    socketRef.current = new WebSocket("ws://localhost:7000");
+
+    socketRef.current.onopen = () => {
+      console.log("Websocket Connected");
+      setIsConnected(true);
+    };
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -66,6 +74,10 @@ export const WebSocketProvider = ({ children }) => {
       }
       console.log("Received message:", data);
     };
+    socketRef.onclose = () => {
+      console.log("Websocket closed");
+      setIsConnected(false);
+    };
 
     return () => {
       socketRef.current.close();
@@ -91,8 +103,6 @@ export const WebSocketProvider = ({ children }) => {
     quizStart,
     setQuizStart,
     nextQuestion,
-    name,
-    setName,
     setNextQuestion,
     currentScore,
     isCorrect,
@@ -101,6 +111,8 @@ export const WebSocketProvider = ({ children }) => {
     setShowScore,
     length,
     setLength,
+    contextName,
+    setContextName,
   };
 
   return (

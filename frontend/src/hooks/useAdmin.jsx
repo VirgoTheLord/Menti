@@ -8,8 +8,8 @@ const useAdmin = () => {
     isConnected,
     quizStart,
     setQuizStart,
-    name,
-    setName,
+    contextName,
+    setContextName,
   } = useWebSocket();
   const [qid, setQid] = useState(0);
   const navigate = useNavigate();
@@ -57,10 +57,10 @@ const useAdmin = () => {
       type: "leave-room",
       payload: {
         code: room,
-        name: name,
+        name: contextName,
       },
     });
-    setName("");
+    setContextName("");
     navigate("/create");
   };
   return {

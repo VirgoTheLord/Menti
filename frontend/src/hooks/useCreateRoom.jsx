@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "../context/WebSocketContext";
 
 const useCreateRoom = () => {
-  // const [name, setName] = useState("");
-  const { setRoom, sendMessage, name, setName } = useWebSocket();
+  const [name, setName] = useState("");
+  const { setRoom, sendMessage, setContextName } = useWebSocket();
   const navigate = useNavigate();
   const handleSubmit = async (code) => {
     const playerName = name.trim() + "_admin";
@@ -17,7 +17,7 @@ const useCreateRoom = () => {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      console.log("Not authorized please signup /login");
+      console.log("Not authorized please signup / login");
       navigate("/login");
       return;
     }
@@ -36,7 +36,7 @@ const useCreateRoom = () => {
       if (response.status === 200) {
         console.log(`Room ${code} has been created`);
         setRoom(code);
-        setName(playerName);
+        setContextName(playerName);
         sendMessage({
           type: "validation",
           payload: {

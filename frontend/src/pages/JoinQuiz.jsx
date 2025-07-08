@@ -1,7 +1,7 @@
 import useJoinRoom from "../hooks/useJoinRoom";
 
 const JoinQuiz = () => {
-  const { name, setName, room, setRoom, handleSubmit } = useJoinRoom();
+  const { setName, room, setRoom, handleSubmit, name } = useJoinRoom();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black">

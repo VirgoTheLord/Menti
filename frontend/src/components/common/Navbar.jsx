@@ -8,28 +8,40 @@ const Navbar = () => {
     <div className="bg-gray-800 text-white">
       <nav className="bg-gray-800 p-4">
         <div className="container mx-auto flex justify-between items-center">
-          <a href="/" className="text-white text-lg font-bold">
+          <a
+            onClick={() => navigate("/")}
+            className="text-white text-lg font-bold"
+          >
             MentiMeter Clone
           </a>
           <div>
-            <a href="/" className="text-white px-4">
+            <a
+              onClick={() => navigate("/")}
+              className="text-white px-4 cursor-pointer"
+            >
               Home
             </a>
             {token ? (
               <>
-                <a href="/create" className="text-white px-4">
+                <a
+                  onClick={() => navigate("/create")}
+                  className="text-white px-4 cursor-pointer"
+                >
                   Create Quiz
                 </a>
-                <a href="/join-quiz" className="text-white px-4">
+                <a
+                  onClick={() => navigate("/join-quiz")}
+                  className="text-white px-4 cursor-pointer"
+                >
                   Join Quiz
                 </a>
-                <a href="/">
+                <a>
                   <button
                     onClick={() => {
                       localStorage.removeItem("token");
                       navigate("/");
                     }}
-                    className="text-white px-4"
+                    className="text-white px-4 cursor-pointer"
                   >
                     Logout
                   </button>
@@ -37,10 +49,16 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <a href="/login" className="text-white px-4">
+                <a
+                  onClick={() => navigate("/login")}
+                  className="text-white px-4 cursor-pointer"
+                >
                   Login
                 </a>
-                <a href="/signup" className="text-white px-4">
+                <a
+                  onClick={() => navigate("/signup")}
+                  className="text-white px-4 cursor-pointer"
+                >
                   Sign Up
                 </a>
               </>

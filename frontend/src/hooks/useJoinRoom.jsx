@@ -3,8 +3,9 @@ import { useWebSocket } from "../context/WebSocketContext";
 import { useNavigate } from "react-router-dom";
 
 const useJoinRoom = () => {
-  const { sendMessage, validate, name, room, setName, setRoom } =
+  const { sendMessage, validate, room, setContextName, setRoom } =
     useWebSocket();
+  const [name, setName] = useState("");
 
   const navigate = useNavigate();
   const handleSubmit = () => {
@@ -16,6 +17,7 @@ const useJoinRoom = () => {
         return;
       }
       setRoom(enteredRoom);
+      setContextName(playerName);
 
       sendMessage({
         type: "validation",
@@ -36,11 +38,12 @@ const useJoinRoom = () => {
     }
   }, [validate]);
   return {
-    name,
-    setName,
+    setContextName,
     room,
     setRoom,
     handleSubmit,
+    name,
+    setName,
   };
 };
 
