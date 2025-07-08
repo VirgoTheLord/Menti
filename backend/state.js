@@ -60,6 +60,16 @@ class Room {
   allusers() {
     return this.players.map((s) => s.user);
   }
+  getLeaderboard() {
+    const leaderboard = [...this.scores]
+      .sort((a, b) => b.score - a.score)
+      .map((entry, index) => ({
+        rank: index + 1,
+        user: entry.user,
+        score: entry.score,
+      }));
+    return leaderboard;
+  }
 
   delete(user) {
     try {

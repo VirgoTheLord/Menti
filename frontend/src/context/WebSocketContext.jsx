@@ -15,8 +15,7 @@ export const WebSocketProvider = ({ children }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [length, setLength] = useState(0);
-
-  // const socket = getSingletonSocket(setIsConnected);
+  const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
     console.log("Websocket on app mount");
@@ -46,6 +45,7 @@ export const WebSocketProvider = ({ children }) => {
       if (data.type === "quiz-ended") {
         setQuizStart(false);
         setShowScore(true);
+        setLeaderboard(data.leaderboard);
       }
       if (data.type === "next-question") {
         setQuizStart(true);
@@ -72,6 +72,7 @@ export const WebSocketProvider = ({ children }) => {
         console.error("Error from server:", data.message);
         setValidate(false);
       }
+
       console.log("Received message:", data);
     };
     socketRef.onclose = () => {
@@ -113,6 +114,7 @@ export const WebSocketProvider = ({ children }) => {
     setLength,
     contextName,
     setContextName,
+    leaderboard,
   };
 
   return (

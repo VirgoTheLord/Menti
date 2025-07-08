@@ -19,6 +19,7 @@ const UserQuiz = () => {
     room,
     selectedOption,
     setSelectedOption,
+    leaderboard,
   } = useUser();
 
   if (!isConnected) {
@@ -95,18 +96,25 @@ const UserQuiz = () => {
         </div>
       )}
 
-      {showScore && (
+      {showScore && leaderboard && leaderboard.length > 0 && (
         <div className="flex flex-col items-center justify-center h-screen">
-          <div className="mt-8">
-            <p className="text-lg">Quiz Ended!</p>
-            <p className="text-md">score: {currentScore}</p>
-            <button
-              onClick={handleLeaveRoom}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Exit
-            </button>
-          </div>
+          <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
+          <ol className="text-lg">
+            {leaderboard.map(({ rank, user, score }) => (
+              <li key={user} className="mb-2">
+                <span className="font-semibold">
+                  {rank}. {user}
+                </span>
+                : {score} pts
+              </li>
+            ))}
+          </ol>
+          <button
+            onClick={handleLeaveRoom}
+            className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Exit
+          </button>
         </div>
       )}
     </div>

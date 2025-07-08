@@ -16,6 +16,7 @@ const useUser = () => {
     currentScore,
     showScore,
     setIsCorrect,
+    leaderboard,
     length,
   } = useWebSocket();
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const useUser = () => {
     room,
     selectedOption,
     setSelectedOption,
+    leaderboard,
   };
 };
 

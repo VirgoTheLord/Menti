@@ -63,8 +63,11 @@ function handleAdmin(socket, payload) {
       console.log(`Admin started next question ${sendQid} in room ${code}`);
       break;
     case "end-quiz":
-      room.broadcast({ type: "quiz-ended" });
-      console.log(`Quiz ended in room ${code}`);
+      const leaderboard = room.getLeaderboard();
+      room.broadcast({ type: "quiz-ended", leaderboard });
+      console.log(
+        `Quiz ended in room ${code} and this is the leaderboard sent`
+      );
       break;
     default:
       socket.send(JSON.stringify({ type: "error", message: "Invalid action" }));
