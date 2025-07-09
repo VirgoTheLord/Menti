@@ -96,7 +96,7 @@ const UserQuiz = () => {
         </div>
       )}
 
-      {showScore && leaderboard && leaderboard.length > 0 && (
+      {showScore && leaderboard && (
         <div className="flex flex-col items-center justify-center h-screen">
           <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
           <ol className="text-lg">

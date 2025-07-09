@@ -57,7 +57,7 @@ export const WebSocketProvider = ({ children }) => {
         setCurrentScore((prevScore) => prevScore + score);
         setIsCorrect(isCorrect);
         console.log(
-          "Answer submitted. Is correct:",
+          "Answer submitted and answer recieved.",
           isCorrect,
           "Score:",
           score
