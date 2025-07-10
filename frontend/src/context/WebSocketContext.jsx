@@ -20,7 +20,7 @@ export const WebSocketProvider = ({ children }) => {
   useEffect(() => {
     console.log("Websocket on app mount");
 
-    socketRef.current = new WebSocket("ws://139.59.55.164");
+    socketRef.current = new WebSocket("ws://menti-backend-service");
 
     socketRef.current.onopen = () => {
       console.log("Websocket Connected");

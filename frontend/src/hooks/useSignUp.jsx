@@ -31,7 +31,7 @@ const useSignUp = () => {
     }
     try {
       const response = await axios.post(
-        "http://139.59.55.164/api/user/signup",
+        "http://menti-backend-service/api/user/signup",
         formData
       );
       if (response.status === 200) {

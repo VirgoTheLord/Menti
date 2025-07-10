@@ -28,7 +28,7 @@ const useLogin = () => {
     }
     try {
       const response = await axios.post(
-        "http://139.59.55.164/api/user/login",
+        "http://menti-backend-service/api/user/login",
         formData
       );
       if (response.status === 200) {
