@@ -2,17 +2,19 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="bg-gray-800 text-white py-4">
-        <div className="container mx-auto text-center">
-          <p>
-            &copy; {new Date().getFullYear()} MentiMeter Clone. All rights
-            reserved.
-          </p>
-          <p>Created by Alwin</p>
+    <footer className="bg-white/80 backdrop-blur border-t border-blue-100 py-6 shadow-inner">
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-gray-700 text-sm">
+        <div className="mb-2 md:mb-0 text-center md:text-left">
+          &copy; {new Date().getFullYear()}{" "}
+          <span className="font-semibold text-blue-600">MentiMeter Clone</span>.
+          All rights reserved.
         </div>
-      </footer>
-    </div>
+        <div className="text-center md:text-right">
+          <span className="text-gray-500">Created by</span>{" "}
+          <span className="font-medium text-blue-500">Alwin</span>
+        </div>
+      </div>
+    </footer>
   );
 };
 

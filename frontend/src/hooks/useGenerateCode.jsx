@@ -6,7 +6,7 @@ const useGenerateCode = () => {
   const handleGenerateCode = async () => {
     try {
       const response = await axios.get(
-        "http://menti-backend-service/api/generate-code"
+        "http://139.59.55.164/api/generate-code"
       );
       if (response.status === 200) {
         const code = response.data.code;

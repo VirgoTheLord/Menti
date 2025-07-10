@@ -7,10 +7,8 @@ const connectDB = require("./config/db");
 const userRouter = require("./routes/entryRoutes");
 const app = express();
 const handleValidate = require("./handlers/validationHandler");
-const handleFetch = require("./handlers/fetchHandler");
 const handleLeave = require("./handlers/leaveHandler");
 const handleSubmit = require("./handlers/submitHandler");
-const handleScores = require("./handlers/scoreHandler");
 const handleAdmin = require("./handlers/adminHandler");
 const verifyToken = require("./middlewares/authMiddleware");
 app.use(cors());
@@ -64,14 +62,10 @@ ws.on("connection", (socket) => {
     const { type, payload } = data;
     if (type === "validation") {
       handleValidate(socket, payload);
-    } else if (type === "fetch-question") {
-      handleFetch(socket, payload);
     } else if (type === "leave-room") {
       handleLeave(socket, payload);
     } else if (type === "submit-answer") {
       handleSubmit(socket, payload);
-    } else if (type === "set-score") {
-      handleScores(socket, payload);
     } else if (type === "admin") {
       handleAdmin(socket, payload);
     }

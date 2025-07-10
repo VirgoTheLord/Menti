@@ -23,7 +23,7 @@ const useCreateRoom = () => {
     }
     try {
       const response = await axios.post(
-        "http://menti-backend-service/api/create-room",
+        "http://139.59.55.164/api/create-room",
         {
           code: code,
         },
