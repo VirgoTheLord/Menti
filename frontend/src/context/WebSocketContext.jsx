@@ -66,6 +66,7 @@ export const WebSocketProvider = ({ children }) => {
       if (data.type === "leave") {
         setPlayers(data.players);
         console.log("A player has left the quiz");
+        setCurrentScore(0);
       }
       //global error just made in case it erros out and uses my try catch errors, some may not be configured but catched the useful ones prolly i guess
       if (data.type === "error") {
@@ -75,7 +76,7 @@ export const WebSocketProvider = ({ children }) => {
 
       console.log("Received message:", data);
     };
-    socketRef.onclose = () => {
+    socketRef.current.onclose = () => {
       console.log("Websocket closed");
       setIsConnected(false);
     };
