@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useSignUp from "../hooks/UseSignUp";
+import useSignUp from "../hooks/useSignUp";
 
 const SignUp = () => {
   const {
