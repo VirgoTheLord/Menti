@@ -28,7 +28,7 @@ const useLogin = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/user/login",
+        "http://139.59.55.164/api/user/login",
         formData
       );
       if (response.status === 200) {
