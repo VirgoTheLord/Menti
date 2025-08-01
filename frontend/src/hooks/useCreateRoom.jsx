@@ -23,7 +23,7 @@ const useCreateRoom = () => {
     }
     try {
       const response = await axios.post(
-        "http://139.59.55.164/api/create-room",
+        "http://localhost:7000/api/create-room",
         {
           code: code,
         },

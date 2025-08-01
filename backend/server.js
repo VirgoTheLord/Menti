@@ -13,7 +13,7 @@ const handleAdmin = require("./handlers/adminHandler");
 const verifyToken = require("./middlewares/authMiddleware");
 app.use(cors());
 app.use(express.json());
-const PORT = 7000;
+const PORT = process.env.PORT || 7000;
 
 const server = http.createServer(app);
 const ws = new WebSocketServer({ server });
@@ -75,6 +75,6 @@ app.get("/", (req, res) => {
   res.json("Mentimeter API Working");
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server Listening on http://localhost:${PORT}`);
 });
