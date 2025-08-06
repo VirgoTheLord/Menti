@@ -31,7 +31,7 @@ const useSignUp = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/user/signup",
+        "https://menti-qvzc.onrender.com/api/user/signup",
         formData
       );
       if (response.status === 200) {

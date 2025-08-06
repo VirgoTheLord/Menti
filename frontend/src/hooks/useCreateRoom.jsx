@@ -23,7 +23,7 @@ const useCreateRoom = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/create-room",
+        "https://menti-qvzc.onrender.com/api/create-room",
         {
           code: code,
         },

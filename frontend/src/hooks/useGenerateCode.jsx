@@ -6,7 +6,7 @@ const useGenerateCode = () => {
   const handleGenerateCode = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:7000/api/generate-code"
+        "https://menti-qvzc.onrender.com/api/generate-code"
       );
       if (response.status === 200) {
         const code = response.data.code;

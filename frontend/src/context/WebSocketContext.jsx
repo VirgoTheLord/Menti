@@ -19,7 +19,7 @@ export const WebSocketProvider = ({ children }) => {
   useEffect(() => {
     console.log("Websocket on app mount");
 
-    socketRef.current = new WebSocket("ws://localhost:7000");
+    socketRef.current = new WebSocket("wss://menti-qvzc.onrender.com");
 
     socketRef.current.onopen = () => {
       console.log("Websocket Connected");
@@ -31,7 +31,6 @@ export const WebSocketProvider = ({ children }) => {
       if (data.type === "players-update") {
         setPlayers(data.players);
       }
-      //just a check i added to prevent direct redirect navigate to quiz page thats all
       if (data.type === "validation-success") {
         setValidate(true);
       }
